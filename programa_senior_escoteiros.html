@@ -7,9 +7,9 @@
 
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#0d2b1a">
+<link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/1066/1066371.png">
 
 <style>
-  /* Mantenha todo o seu CSS original aqui */
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
     min-height: 100vh;
@@ -17,27 +17,184 @@
     font-family: 'Georgia', 'Times New Roman', serif;
     color: #e8e0d0;
   }
-  /* ... resto do seu CSS ... */
+  .header {
+    background: linear-gradient(135deg, #0d2b1a 0%, #1a4a2e 50%, #0d2b1a 100%);
+    border-bottom: 2px solid #2d6b3a;
+    padding: 28px 24px 20px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .header-inner { max-width: 900px; margin: 0 auto; }
+  .header-row { display: flex; align-items: center; gap: 12px; margin-bottom: 4px; }
+  .header-icon { font-size: 28px; }
+  .header-label { font-size: 11px; letter-spacing: 4px; color: #4ade80; text-transform: uppercase; font-weight: bold; }
+  .header-title { font-size: 22px; font-weight: normal; color: #fff; margin-bottom: 20px; }
+
+  .nav-tabs { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; }
+  .nav-tabs::-webkit-scrollbar { display: none; }
+  .nav-btn {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: #a0b0a8;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 13px;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .nav-btn.active {
+    background: #2d6b3a;
+    color: #fff;
+    border-color: #4ade80;
+  }
+
+  .container { max-width: 900px; margin: 0 auto; padding: 24px; }
+  .section { display: none; }
+  .section.active { display: block; animation: fadeIn 0.4s ease-out; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+  .card {
+    background: #121a16;
+    border-left: 4px solid #2d6b3a;
+    padding: 24px;
+    border-radius: 8px;
+    margin-bottom: 24px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  }
+  h2 { color: #4ade80; font-size: 18px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px; border-bottom: 1px solid #1a2e24; padding-bottom: 8px; }
+  p { line-height: 1.6; margin-bottom: 16px; color: #c0d0c8; }
+
+  .grid-eixos { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; }
+  .eixo-item { background: #1a2e24; padding: 16px; border-radius: 6px; border: 1px solid #2d6b3a; }
+  .eixo-name { font-weight: bold; color: #fff; display: block; margin-bottom: 4px; }
+  .eixo-desc { font-size: 13px; color: #a0b0a8; }
+
+  .table-wrapper { overflow-x: auto; margin-top: 10px; border-radius: 8px; border: 1px solid #1a2e24; }
+  table { width: 100%; border-collapse: collapse; background: #0d1411; min-width: 500px; }
+  th, td { padding: 14px; text-align: left; border-bottom: 1px solid #1a2e24; font-size: 14px; }
+  th { background: #1a2e24; color: #4ade80; text-transform: uppercase; font-size: 11px; }
+  .td-campo { font-weight: bold; color: #fff; width: 30%; }
+  .td-old { color: #f87171; text-decoration: line-through; opacity: 0.7; width: 35%; }
+  .td-new { color: #4ade80; font-weight: bold; width: 35%; }
+
+  .footer { text-align: center; padding: 40px 24px; color: #4b6358; font-size: 12px; letter-spacing: 1px; }
+
+  @media (max-width: 600px) {
+    .header { padding: 20px 16px 12px; }
+    .header-title { font-size: 18px; }
+    .container { padding: 16px; }
+    .card { padding: 16px; }
+  }
 </style>
 </head>
 <body>
 
-<script>
-  // REGISTRO DO SERVICE WORKER
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('./service-worker.js')
-        .then(reg => console.log('Sincronização offline ativa!'))
-        .catch(err => console.error('Erro de registro:', err));
-    });
-  }
+<div class="header">
+  <div class="header-inner">
+    <div class="header-row">
+      <span class="header-icon">⚜️</span>
+      <span class="header-label">Escoteiros do Brasil</span>
+    </div>
+    <h1 class="header-title">Atualização do Programa Educativo</h1>
+    <div class="nav-tabs">
+      <button class="nav-btn active" onclick="showSection('inicio', this)">Início</button>
+      <button class="nav-btn" onclick="showSection('eixos', this)">Eixos de Competência</button>
+      <button class="nav-btn" onclick="showSection('comparativo', this)">O que mudou?</button>
+    </div>
+  </div>
+</div>
 
-  // Suas funções de navegação originais
+<div class="container">
+
+  <div id="inicio" class="section active">
+    <div class="card">
+      <h2>O Novo Ramo Sênior</h2>
+      <p>A atualização 2025–2026 foca na autonomia e no protagonismo juvenil, simplificando processos e alinhando as competências aos desafios do mundo moderno.</p>
+      <p>O foco principal é o <strong>Desafio do Azimute</strong> e a jornada para o <strong>Escoteiro da Pátria</strong>, agora com critérios mais claros e objetivos.</p>
+    </div>
+  </div>
+
+  <div id="eixos" class="section">
+    <div class="card">
+      <h2>Os 6 Eixos de Competência</h2>
+      <p>O desenvolvimento do jovem agora é medido através de objetivos educativos divididos nestas áreas:</p>
+      <div class="grid-eixos">
+        <div class="eixo-item"><span class="eixo-name">Físico</span><span class="eixo-desc">Saúde, autocuidado e limites do corpo.</span></div>
+        <div class="eixo-item"><span class="eixo-name">Intelectual</span><span class="eixo-desc">Criatividade, pensamento crítico e novas habilidades.</span></div>
+        <div class="eixo-item"><span class="eixo-name">Caráter</span><span class="eixo-desc">Identidade, valores e coerência pessoal.</span></div>
+        <div class="eixo-item"><span class="eixo-name">Afetivo</span><span class="eixo-desc">Equilíbrio emocional e relações saudáveis.</span></div>
+        <div class="eixo-item"><span class="eixo-name">Social</span><span class="eixo-desc">Cidadania ativa e serviço à comunidade.</span></div>
+        <div class="eixo-item"><span class="eixo-name">Espiritual</span><span class="eixo-desc">Conexão com o sagrado e respeito às crenças.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="comparativo" class="section">
+    <div class="card">
+      <h2>Comparativo de Regras</h2>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th>Como era</th>
+              <th>Como ficou</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="td-campo">Progressão</td>
+              <td class="td-old">Etapas (Escoteiro, Guia, etc.)</td>
+              <td class="td-new">Foco em Competências e Projetos</td>
+            </tr>
+            <tr>
+              <td class="td-campo">Período de Integração</td>
+              <td class="td-old">Foco em provas técnicas iniciais</td>
+              <td class="td-new">Período de Acolhida; lenço no registro definitivo</td>
+            </tr>
+            <tr>
+              <td class="td-campo">Jornada de Azimute</td>
+              <td class="td-old">1 pernoite obrigatório</td>
+              <td class="td-new">Desafio do Azimute com 2 pernoites obrigatórios</td>
+            </tr>
+            <tr>
+              <td class="td-campo">Patrulhas</td>
+              <td class="td-old">Máximo de 6 jovens</td>
+              <td class="td-new">De 4 a 8 jovens</td>
+            </tr>
+            <tr>
+              <td class="td-campo">Transição</td>
+              <td class="td-old">Sistema incompatível</td>
+              <td class="td-new">Prazo para concluir no sistema velho até junho/2027</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">⚜️ Escoteiros do Brasil · Ramo Sênior · Atualização 2025–2026</div>
+
+<script>
+  // Função para mudar abas
   function showSection(id, btn) {
     document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
     document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
     document.getElementById(id).classList.add('active');
     if (btn) btn.classList.add('active');
+  }
+
+  // Registro do Service Worker para modo offline
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./service-worker.js')
+        .then(reg => console.log('App pronto para uso offline!'))
+        .catch(err => console.error('Erro no Service Worker:', err));
+    });
   }
 </script>
 </body>
