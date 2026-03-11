@@ -1,17 +1,21 @@
-{
-  "short_name": "Ramo Sênior",
-  "name": "Programa Educativo Sênior",
-  "icons": [
-    {
-      "src": "https://cdn-icons-png.flaticon.com/512/1066/1066371.png",
-      "type": "image/png",
-      "sizes": "512x512",
-      "purpose": "any maskable"
-    }
-  ],
-  "start_url": "./programa_senior_escoteiros.html",
-  "background_color": "#0a0f0d",
-  "display": "standalone",
-  "scope": "./",
-  "theme_color": "#0d2b1a"
-}
+const CACHE_NAME = 'senior-v1';
+const assets = [
+  './programa_senior_escoteiros.html',
+  './manifest.json'
+];
+
+self.addEventListener('install', event => {
+  event.waitUntil(
+    caches.open(CACHE_NAME).then(cache => {
+      return cache.addAll(assets);
+    })
+  );
+});
+
+self.addEventListener('fetch', event => {
+  event.respondWith(
+    caches.match(event.request).then(response => {
+      return response || fetch(event.request);
+    })
+  );
+});
